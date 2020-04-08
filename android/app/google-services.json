@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "427141452906",
+    "firebase_url": "https://ngoapp-a6689.firebaseio.com",
+    "project_id": "ngoapp-a6689",
+    "storage_bucket": "ngoapp-a6689.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:427141452906:android:c28f1b830f3dc5fbe46613",
+        "android_client_info": {
+          "package_name": "com.dhruvgoyal.ngo"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "427141452906-qdb986j9ssr1hbqc9ji1h44q2uoubqov.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyA4Hzk08_fLf-YnYitQsfaSUDcW_GE4OvY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "427141452906-qdb986j9ssr1hbqc9ji1h44q2uoubqov.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

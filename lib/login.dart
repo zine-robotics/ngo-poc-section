@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:ngo/afterRegister.dart';
+import 'package:ngo/categories.dart';
 import 'package:ngo/register.dart';
 import 'package:page_transition/page_transition.dart';
 import 'authentication.dart';
@@ -9,6 +10,7 @@ import 'package:modal_progress_hud/modal_progress_hud.dart';
 import 'constants.dart';
 import 'alertUser.dart';
 import 'Roundedbutton.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 const Color iconColor = Colors.white;
 const Color iconTapped = Colors.blue;
@@ -24,6 +26,7 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   bool showSpinner = false;
   final _auth = FirebaseAuth.instance;
+  final _firestore = Firestore.instance;
 
   String email;
   String password;
@@ -132,15 +135,120 @@ class _LoginScreenState extends State<LoginScreen> {
 //                            final user = widget.auth.signIn(email, password);
 
                             if (user != null) {
-                              widget.onSignedin();
-                              Navigator.push(
-                                  context,
-                                  PageTransition(
-                                      type: PageTransitionType.rightToLeft,
-                                      child: AfterRegister()));
-                              setState(() {
-                                showSpinner = false;
-                              });
+                              try {
+                                final loggedinUser = await _auth.currentUser();
+
+                                if (loggedinUser != null) {
+                                  if (loggedinUser.isEmailVerified) {
+                                    // widget.onSignedin();
+
+                                    try {
+                                      final QuerySnapshot result =
+                                          await _firestore
+                                              .collection('categories')
+                                              .where('sender',
+                                                  isEqualTo: loggedinUser.email
+                                                      .toLowerCase())
+                                              .limit(1)
+                                              .getDocuments();
+                                      final List<DocumentSnapshot> documents =
+                                          result.documents;
+                                      bool found = documents.length == 1;
+
+                                      if (found) {
+                                        Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                type: PageTransitionType
+                                                    .rightToLeft,
+                                                child: AfterRegister()));
+                                      } else {
+                                        Navigator.push(
+                                            context,
+                                            PageTransition(
+                                                type: PageTransitionType
+                                                    .rightToLeft,
+                                                child: Categories()));
+                                      }
+                                    } catch (e) {
+                                      var alertDialog = AlertUser(
+                                        title: 'Oops!',
+                                        content:
+                                            'We cannot reach our servers right now. Please check your internet connection',
+                                        btnText: 'Back',
+                                      );
+                                      showDialog(
+                                          context: (context),
+                                          builder: (context) {
+                                            return alertDialog;
+                                          });
+
+                                      setState(() {
+                                        showSpinner = false;
+                                      });
+                                    }
+//
+//                                    _firestore
+//                                        .collection('categories')
+//                                        .document(loggedinUser.uid)
+//                                        .get()
+//                                        .then((doc) {
+//                                      if (doc.exists) {
+//                                        Navigator.push(
+//                                            context,
+//                                            PageTransition(
+//                                                type: PageTransitionType
+//                                                    .rightToLeft,
+//                                                child: AfterRegister()));
+//                                      } else {
+//                                        Navigator.push(
+//                                            context,
+//                                            PageTransition(
+//                                                type: PageTransitionType
+//                                                    .rightToLeft,
+//                                                child: Categories()));
+//                                      }
+//                                    }).catchError((error) {
+//                                      var alertDialog = AlertUser(
+//                                        title: 'Oops!',
+//                                        content:
+//                                            'We cannot reach our servers right now. Please check your internet connection',
+//                                        btnText: 'Back',
+//                                      );
+//                                      showDialog(
+//                                          context: (context),
+//                                          builder: (context) {
+//                                            return alertDialog;
+//                                          });
+//
+//                                      setState(() {
+//                                        showSpinner = false;
+//                                      });
+//                                    });
+                                  } else {
+                                    var alertDialog = AlertUser(
+                                      title: 'Oops!',
+                                      content:
+                                          'Email is not verified, Please verify your email and try again.',
+                                      btnText: 'Back',
+                                    );
+                                    showDialog(
+                                        context: (context),
+                                        builder: (context) {
+                                          return alertDialog;
+                                        });
+                                  }
+
+                                  setState(() {
+                                    showSpinner = false;
+                                  });
+                                }
+                              } catch (e) {
+                                setState(() {
+                                  showSpinner = false;
+                                });
+                                print(e);
+                              }
                             }
                           } on PlatformException {
                             setState(() {
@@ -191,6 +299,9 @@ class _LoginScreenState extends State<LoginScreen> {
                                   return alertDialog;
                                 });
                           } catch (e) {
+                            setState(() {
+                              showSpinner = false;
+                            });
                             print(e);
                             print('haha');
                           }

@@ -5,6 +5,7 @@ import 'package:ngo/afterRegister.dart';
 import 'package:ngo/categories.dart';
 import 'package:ngo/constants.dart';
 import 'package:ngo/login.dart';
+import 'package:ngo/verification.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'authentication.dart';
@@ -154,7 +155,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                           try {
                             final newUser =
                                 await _auth.createUserWithEmailAndPassword(
-                                    email: email, password: password);
+                                    email: email.toLowerCase(),
+                                    password: password);
 
 //                          final newUser =
 //                              widget.user.createUser(email, password);
@@ -163,7 +165,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                   context,
                                   PageTransition(
                                       type: PageTransitionType.rightToLeft,
-                                      child: Categories()));
+                                      child: Verification()));
                             }
                             setState(() {
                               showSpinner = false;
@@ -259,6 +261,16 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                         fontSize: 20,
                                         fontWeight: FontWeight.w800),
                                   ),
+                                  actions: <Widget>[
+                                    FlatButton(
+                                      child: Text('Back'),
+                                      onPressed: () {
+                                        Navigator.pop(
+                                          context,
+                                        );
+                                      },
+                                    ),
+                                  ],
                                   shape: RoundedRectangleBorder(),
                                   backgroundColor: Colors.transparent,
                                 );

@@ -1,4 +1,5 @@
 import 'package:ngo/categories.dart';
+import 'package:ngo/register.dart';
 import 'package:ngo/root.dart';
 
 import 'login.dart';
@@ -71,7 +72,7 @@ class _SplashState extends State<Splash> with SingleTickerProviderStateMixin {
             child: RootPage(
               auth: Auth(),
             )
-//            LoginScreen(
+//                LoginScreen(
 //              auth: Auth(),
 //            )
             ));
@@ -217,81 +218,3 @@ class Dot extends StatelessWidget {
     );
   }
 }
-//Container(
-//width: 100,
-//height: 100,
-//child: Center(
-//child: RotationTransition(
-//turns: animation_rotation,
-//child: Stack(
-//children: <Widget>[
-//Dot(
-//radius: 30,
-//color: Colors.white,
-//),
-//Transform.translate(
-//offset: Offset(radius * cos(pi), radius * sin(pi)),
-//child: Dot(
-//radius: 5,
-//color: Colors.redAccent,
-//),
-//),
-//Transform.translate(
-//offset: Offset(radius * cos(pi / 4), radius * sin(pi / 4)),
-//child: Dot(
-//radius: 5,
-//color: Colors.amberAccent,
-//),
-//),
-//Transform.translate(
-//offset: Offset(radius * cos(pi / 2), radius * sin(pi / 2)),
-//child: Dot(
-//radius: 5,
-//color: Colors.blue,
-//),
-//),
-//Transform.translate(
-//offset:
-//Offset(radius * cos(3 * pi / 4), radius * sin(3 * pi / 4)),
-//child: Dot(
-//radius: 5,
-//color: Colors.orange,
-//),
-//),
-//Transform.translate(
-//offset:
-//Offset(radius * cos(5 * pi / 4), radius * sin(5 * pi / 4)),
-//child: Dot(
-//radius: 5,
-//color: Colors.greenAccent,
-//),
-//),
-//Transform.translate(
-//offset:
-//Offset(radius * cos(6 * pi / 4), radius * sin(6 * pi / 4)),
-//child: Dot(
-//radius: 5,
-//color: Colors.purpleAccent,
-//),
-//),
-//Transform.translate(
-//offset:
-//Offset(radius * cos(7 * pi / 4), radius * sin(7 * pi / 4)),
-//child: Dot(
-//radius: 5,
-//color: Colors.yellowAccent,
-//),
-//),
-//Transform.translate(
-//offset:
-//Offset(radius * cos(8 * pi / 4), radius * sin(8 * pi / 4)),
-//child: Dot(
-//radius: 5,
-//color: Colors.blueGrey,
-//),
-//),
-//],
-//),
-//),
-//),
-//),

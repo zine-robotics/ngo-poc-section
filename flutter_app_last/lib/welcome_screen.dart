@@ -88,6 +88,10 @@ class welcome_screen extends StatelessWidget {
                         child: RoundedButton(
                             text: 'Help a needy',
                             onPressed: () {
+Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => LoginScreen()));
                            
                             }),
                       ),
